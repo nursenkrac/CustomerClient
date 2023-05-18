@@ -1,0 +1,174 @@
+﻿@model GetCustomer
+@{
+    ViewData["Title"] = "Müşteri Sorgula";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+
+<!-- Multi step form -->
+<section class="multi_step_form">
+    <div id="msformdosyayukle">
+
+
+        <ul id="progressbar">
+            <li class="active">Müşteri Kaydet</li>
+            <li>Sonuç</li>
+        </ul>
+
+        @if (ViewBag.StepSS == "yes")
+        {
+            <script>
+                if (true) {
+                    $(document).ready(function () {
+
+                        var current_fs, next_fs; //fieldsets
+                        var left, opacity, scale; //fieldset properties which we will animate
+                        var animating; //flag to prevent quick multi-click glitches
+                        // Your jQuery code here
+                        function OpenPaymentWindow() {
+
+                            if (animating) return false;
+                            animating = true;
+
+                            current_fs = $("#page01");
+                            next_fs = $("#page02");
+
+
+                            //activate next step on progressbar using the index of next_fs
+                            $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+                            //show the next fieldset
+                            next_fs.show();
+                            //hide the current fieldset with style
+                            current_fs.animate({
+                                opacity: 0
+                            }, {
+                                step: function (now, mx) {
+                                    //as the opacity of current_fs reduces to 0 - stored in "now"
+                                    //1. scale current_fs down to 80%
+                                    scale = 1 - (1 - now) * 0.2;
+                                    //2. bring next_fs from the right(50%)
+                                    left = (now * 50) + "%";
+                                    //3. increase opacity of next_fs to 1 as it moves in
+                                    opacity = 1 - now;
+                                    current_fs.css({
+                                        'transform': 'scale(' + scale + ')',
+                                        'position': 'absolute'
+                                    });
+                                    next_fs.css({
+                                        'left': left,
+                                        'opacity': opacity
+                                    });
+                                },
+                                duration: 800,
+                                complete: function () {
+                                    current_fs.hide();
+                                    animating = false;
+                                },
+                                //this comes from the custom easing plugin
+                                easing: 'easeInOutBack'
+                            });
+                        }
+
+                        OpenPaymentWindow();
+                    });
+                }
+            </script>
+        }
+
+        <fieldset id="page01">
+            <h6>Müşteri Id Bilgisini Giriniz.</h6>
+            <div class="text-danger small" asp-validation-summary="ModelOnly"></div>
+            <form id="formx" method="post" enctype="multipart/form-data">
+
+                <input asp-for="CustomerById.Id" type="text" class="form-control" placeholder="Id" />
+                <div class="text-danger small text-start">
+                    <span asp-validation-for="CustomerById.Id"></span>
+                </div>
+              
+
+
+                <div class="was-validated">
+
+
+                    <div id="panel" class="mb-3">
+                    </div>
+
+                </div>
+
+                <button type="submit" id="btnGonder" class="action-button">Gönder</button>
+
+            </form>
+        </fieldset>
+
+
+        <fieldset id="page02">
+            @if (@Model != null )
+            {
+                if (@Model.outputModel !=null)
+                {
+
+                <table>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Soyisim</th>
+                        <th>KimlikNo</th>
+                        <th>Doğum günü</th>
+
+                    </tr>
+                    <tr>
+                        <td>@Model.outputModel.data.name</td>
+                        <td>@Model.outputModel.data.surname</td>
+                        <td>@Model.outputModel.data.nationalIdentifier</td>
+                        <td>@Model.outputModel.data.birthDate</td>
+
+                    </tr>
+                </table>
+                }
+            }
+
+
+            <a asp-controller="Home" asp-action="SaveCustomer" class="btn btn-success">Yeni Müşteri Kaydet</a>
+        </fieldset>
+
+    </div>
+</section>
+<!-- End Multi step form -->
+
+<div id="panelLoader">
+    <div id="preloader"></div>
+</div>
+
+<script type="text/javascript">
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        const preloader = document.querySelector('#preloader');
+        if (preloader) {
+            window.addEventListener('load', () => {
+                preloader.remove();
+            });
+        }
+    });
+
+    const form = document.getElementById("formx");
+
+    form.addEventListener('submit', () => {
+
+        const panelLoader = document.getElementById("panelLoader");
+        var submitLoader = document.createElement("div");
+        submitLoader.setAttribute("id", "preloader");
+        panelLoader.appendChild(submitLoader);
+
+        const preloader = document.querySelector('#preloader');
+        if (preloader) {
+            window.addEventListener('load', () => {
+                preloader.remove();
+            });
+        }
+    });
+
+
+</script>

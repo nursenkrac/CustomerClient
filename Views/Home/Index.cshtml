@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Anasayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="text-center">
+    <h1 class="display-4">Müşteri İşlemleri</h1>
+    <div class="tittle mt-4">
+        <h1>Müşteri İşlemleri</h1>
+    </div>
+
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-bg-primary rounded-3">
+                <h2>Müşteri Kaydet</h2>
+                <a class="btn btn-outline-light" asp-controller="Home" asp-action="SaveCustomer"><i class="bi bi-send-fill"></i><br />Müşteri Kaydet</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-light border rounded-3">
+                <h2>Müsteri Id ile Sorgula</h2>
+                <a class="btn btn-outline-secondary" asp-controller="Home" asp-action="SearchById"><i class="bi bi-send-fill"></i><br /> Müşteri Sorgula</a>
+            </div>
+        </div>
+    </div>
+    <hr />
+   
+    </section>
+</div>

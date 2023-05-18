@@ -1,0 +1,27 @@
+﻿:root {
+    --color-primary: #eaf0f4;
+    --color-secondary: #00657f;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.form-signin {
+    max-width: 600px;
+    padding: 75px;
+    background-color: #f2f7fa
+}
+
+.btn-primary{
+    background-color: var(--color-secondary);
+    border-color: var(--color-secondary);
+}
